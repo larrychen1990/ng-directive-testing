@@ -4,7 +4,21 @@
   "description": "An example of testing AngularJS directives with Karma.",
   "main": "",
   "scripts": {
-    "test": "karma start --single-run --no-auto-watch"
+    "postinstall": "bower prune && bower install && bower update",
+    "prestart": "npm install",
+    "start": "http-server -a localhost -p 8080 -c-1",
+    "pretest": "npm install",
+    "test": "karma start",
+    "posttest": "npm run build",
+    "test2": "karma start --single-run --no-auto-watch",
+    "build": "npm run build-js && npm run build-less",
+    "build-js": "browerify -t reactify app/js/main.js | uglifyjs -mc > static/bundle.js",
+    "build-less": "lessc app/less/main.less static/main.css",
+    "watch": "npm run watch-js & npm run watch-less & npm run watch-server",
+    "watch-js": "watchify app/js/main.js -t reactify -o static/bundle.js -dv",
+    "watch-less": "nodemon --watch app/less/*.less --ext less --exec 'npm run build-less'",
+    "watch-server": "nodemon --ignore app --ignore static server.js",
+    "deploy": "./bin/deploy.sh"
   },
   "repository": {
     "type": "git",
@@ -13,10 +27,18 @@
   "author": "Vojta Jina <vojta.jina@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "karma": "~0.10",
-    "karma-jasmine": "*",
+    "bootstrap": "^3.3.6",
+    "browserify": "^3.14.0",
+    "http-server": "^0.6.1",
+    "karma": "~0.12",
     "karma-chrome-launcher": "*",
     "karma-firefox-launcher": "*",
-    "karma-ng-html2js-preprocessor": "*"
+    "karma-jasmine": "*",
+    "karma-junit-reporter": "^0.2.2",
+    "karma-ng-html2js-preprocessor": "*",
+    "nodemon": "^1.0.15",
+    "reactify": "^0.5.1",
+    "uglify-js": "^2.4.8",
+    "watchify": "^0.6.2"
   }
 }

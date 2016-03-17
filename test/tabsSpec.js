@@ -1,13 +1,14 @@
-describe('tabs', function() {
+fdescribe('tabs', function() {
   var elm, scope;
 
   // load the tabs code
   beforeEach(module('tabs'));
 
   // load the templates
-  beforeEach(module('tpl/tabs.html', 'tpl/pane.html'));
+  beforeEach(module('templates'));
+//  beforeEach(module('../tpl/tabs.html', '../tpl/pane.html'));
 
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(inject(function($rootScope, $compile, $templateCache) {
     // we might move this tpl into an html file as well...
     elm = angular.element(
       '<div>' +
